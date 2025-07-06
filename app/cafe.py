@@ -14,9 +14,11 @@ class Cafe:
 
         today_date = datetime.date.today()
         vaccine_date = visitor["vaccine"]["expiration_date"]
-        if isinstance(vaccine_date, datetime.date):
-            if vaccine_date < today_date:
-                raise OutdatedVaccineError("Fix your vaccine")
+
+        if isinstance(vaccine_date, str):
+            vaccine_date = datetime.date.fromisoformat(vaccine_date)
+        if vaccine_date < today_date:
+            raise OutdatedVaccineError("Fix your vaccine")
 
         if not visitor.get("wearing_a_mask", False):
             raise NotWearingMaskError("Wear your mask")
